@@ -2,10 +2,9 @@
 \alias{gradient.bar}
 \title{Plot a Gradient along a Bar}
 \usage{
-  gradient.bar(range = c(0, 1), break.points = NULL,
-    nBins = NULL, col = NULL, col.gradient = NULL,
-    border = par("fg"), lines = NA, direction = "x",
-    main = "", bin.lab = NULL)
+gradient.bar(range = c(0, 1), break.points = NULL, nBins = NULL,
+  col = NULL, col.gradient = NULL, border = par("fg"), lines = NA,
+  direction = "x", main = "", bin.lab = NULL)
 }
 \arguments{
   \item{range}{The range of the plot in the direction of
@@ -51,11 +50,10 @@
   gradient. Useful for labelling legends}
 }
 \description{
-  \code{gradient.bar} plots a gradient along a bar in
-  either the x or y directions, using user specified break
-  points for each step in the gradient. This works by
-  plotting the gradient over the entire dimensions of a
-  plot window.
+\code{gradient.bar} plots a gradient along a bar in either
+the x or y directions, using user specified break points
+for each step in the gradient. This works by plotting the
+gradient over the entire dimensions of a plot window.
 }
 \examples{
 # Intervals of size 2^x

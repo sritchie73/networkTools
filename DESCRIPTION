@@ -7,5 +7,3 @@ Authors@R: 'Scott Ritchie <sritchie73@gmail.com> [aut, cre]'
 Description: A collection of tools for working with and visualising large
     networks.
 License: GPL (>= 2)
-Collate:
-    'cytoscape_tools.R'
