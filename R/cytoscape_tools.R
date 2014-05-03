@@ -57,6 +57,9 @@ writeEdgeTableFromAdj <- function(adj, filename, noEdge=c(0, NA), diag=FALSE,
   }
   sink()
 }
+<<<<<<< HEAD
 
 `%nin%` <- function(...) !(`%in%`(...))
 
+=======
+>>>>>>> 619addf57a7b0a65e546d08c0832bcd1a6933d21
