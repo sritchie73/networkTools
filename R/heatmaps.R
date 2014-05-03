@@ -21,7 +21,7 @@ OrderNetwork <- function(edge.matrix, node.labels=NULL, cluster.summaries=NULL) 
       cluster.order <- unique(node.labels)
     }
     for (network in cluster.order) {
-      net.genes <- names(node.labels[which(node.labels == network)])
+      net.genes <- names(node.labels[node.labels %in% network])
       # Order genes within each network by their connectivity to all other genes
       order <- c(order, names(sort(colSums(abs(edge.matrix[,net.genes])))))
     }
