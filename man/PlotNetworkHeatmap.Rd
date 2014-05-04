@@ -4,10 +4,11 @@
 
 Plots the edge weights between nodes as a heatmap, optionally drawing boxes
 around pre-determined clusters. The \code{xlab} and \code{ylab} arguments are
-useful when comparing the edge weights}
+useful when comparing the edge weights.}
 \usage{
 PlotNetworkHeatmap(edge.matrix, network.labels = NULL, xlab = "",
-  ylab = "")
+  ylab = "", legend.main = "", cluster.legend.main = "",
+  heatmap.bins = 11, heatmap.gradient, cluster.cols)
 }
 \arguments{
   \item{edge.matrix}{a square matrix containing the edge
@@ -16,9 +17,24 @@ PlotNetworkHeatmap(edge.matrix, network.labels = NULL, xlab = "",
   \item{network.labels}{an optional named vector assigning
   each node to a network/cluster.}
 
-  \item{xlab}{}
+  \item{xlab}{x-axis heatmap label.}
 
-  \item{ylab}{}
+  \item{ylab}{y-axis heatmap label.}
+
+  \item{legend.main}{title to give to the legend denoting
+  heatmap colors.}
+
+  \item{cluster.legend.main}{title to give to the legend
+  denoting cluster assignment.}
+
+  \item{heatmap.bins}{Number of bins to partition edge
+  weights into for plotting.}
+
+  \item{heatmap.gradient}{A vector of colors to use for (or
+  interpolate over) the heatmap.bins.}
+
+  \item{cluster.cols}{an optional vector of colors for
+  denoting each cluster on a legend.}
 }
 \description{
 Plot network edge weights as a heatmap.
@@ -26,7 +42,7 @@ Plot network edge weights as a heatmap.
 Plots the edge weights between nodes as a heatmap,
 optionally drawing boxes around pre-determined clusters.
 The \code{xlab} and \code{ylab} arguments are useful when
-comparing the edge weights
+comparing the edge weights.
 }
 \note{
 It expects nodes to be pre-ordered within the edge weight
