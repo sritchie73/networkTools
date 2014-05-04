@@ -63,7 +63,7 @@ ComparativeEdgeMatrix <- function(edge.matrix1, edge.matrix2) {
   
   order <- colnames(edge.matrix1)
   combined <- edge.matrix1
-  combined[lower.tri(combined)] <- edge.matrix2[order, order][lower.tri(edge.matrix2)]
+  combined[lower.tri(combined)] <- edge.matrix2[order, order][lower.tri(combined)]
   return(combined)
 }
 
