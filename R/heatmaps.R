@@ -84,6 +84,8 @@ ComparativeEdgeMatrix <- function(edge.matrix1, edge.matrix2) {
 #'        assignment.
 #' @param heatmap.bins Number of bins to partition edge weights into for 
 #'        plotting.
+#' @param edge.weight.range The range of values edge weights can take. Defaults
+#'        to \code{c(-1, 1)}.
 #' @param heatmap.gradient A vector of colors to use for (or interpolate over)
 #'        the heatmap.bins.
 #' @param cluster.cols an optional vector of colors for denoting each cluster 
@@ -97,6 +99,7 @@ ComparativeEdgeMatrix <- function(edge.matrix1, edge.matrix2) {
 PlotNetworkHeatmap <- function(edge.matrix, network.labels=NULL, 
                                xlab="", ylab="", legend.main="", 
                                cluster.legend.main="", heatmap.bins=11,
+                               edge.weight.range=c(-1,1),
                                heatmap.gradient, cluster.cols) {
   if(missing(heatmap.gradient)) {
     # "RdYlBu" RColorBrewer palette, with the middle value replaced with white:
@@ -132,7 +135,8 @@ PlotNetworkHeatmap <- function(edge.matrix, network.labels=NULL,
         z      = edge.matrix, 
         col    = colorRampPalette(heatmap.gradient)(heatmap.bins), 
         asp    = 1,  
-        breaks = seq(-1, 1, length.out=heatmap.bins+1),
+        breaks = seq(edge.weight.range[1], edge.weight.range[2], 
+                     length.out=heatmap.bins+1),
         axes   = FALSE,
         xlab   = "", 
         ylab   = "") 
@@ -159,7 +163,9 @@ PlotNetworkHeatmap <- function(edge.matrix, network.labels=NULL,
                direction    = "y", 
                lines        = "black", 
                col.gradient = rev(heatmap.gradient), 
-               bin.lab      = format(seq(1, -1, length=heatmap.bins+1), digits=3)
+               bin.lab      = format(seq(edge.weight.range[2], 
+                                         edge.weight.range[1], 
+                                         length=heatmap.bins+1), digits=3)
   )   
   mtext(legend.main, side=3, line=1)
   
