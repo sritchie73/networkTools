@@ -23,7 +23,8 @@ OrderNetwork <- function(edge.matrix, node.labels=NULL, cluster.summaries=NULL) 
     for (network in cluster.order) {
       net.genes <- names(node.labels[node.labels %in% network])
       # Order genes within each network by their connectivity to all other genes
-      order <- c(order, names(sort(colSums(abs(edge.matrix[,net.genes])))))
+      order <- c(order, names(sort(colSums(abs(edge.matrix[,net.genes])), 
+                                   decreasing=TRUE)))
     }
   }
   
@@ -76,15 +77,20 @@ ComparativeEdgeMatrix <- function(edge.matrix1, edge.matrix2) {
 #'                    pair of nodes.
 #' @param network.labels an optional named vector assigning each node to a 
 #'                       network/cluster.
-#' @param xlab 
-#' @param ylab
+#' @param xlab x-axis heatmap label
+#' @param ylab y-axis heatmap label
+#' @param legend.main title to give to the legend denoting heatmap colors
+#' @param cluster.legend.main title to give to the legend denoting cluster 
+#'        assignment
 #' @note 
 #'  It expects nodes to be pre-ordered within the edge weight matrix:
 #'  I.e. clusters should be in continuous blocks. Otherwise, garbage-in, 
 #'  garbage-out.
 #'
 #' @export
-PlotNetworkHeatmap <- function(edge.matrix, network.labels=NULL, xlab="", ylab="") {
+PlotNetworkHeatmap <- function(edge.matrix, network.labels=NULL, 
+                               xlab="", ylab="", legend.main="",
+                               cluster.legend.main="") {
   # "RdYlBu" ColorBrewer palette, with the middle value replaced with white:
   # this gives a nicer contrast than he RdBu palette.
   gradient <- c("#313695", "#4575B4", "#74ADD1", "#ABD9E9", "#E0F3F8", "#FFFFFF", 
@@ -110,9 +116,9 @@ PlotNetworkHeatmap <- function(edge.matrix, network.labels=NULL, xlab="", ylab="
   image(x      = 0:ncol(edge.matrix),
         y      = 0:ncol(edge.matrix),
         z      = edge.matrix, 
-        col    = gradient, 
+        col    = colorRampPalette(gradient)(255), 
         asp    = 1,  
-        breaks = seq(-1, 1, length.out=12),
+        breaks = seq(-1, 1, length.out=256),
         axes   = FALSE,
         xlab   = "", 
         ylab   = "") 
@@ -141,7 +147,7 @@ PlotNetworkHeatmap <- function(edge.matrix, network.labels=NULL, xlab="", ylab="
                col.gradient = rev(gradient), 
                bin.lab      = format(seq(1, -1, length=12), digits=3)
   )   
-  mtext("Edge Weight", side=3, line=1)
+  mtext(legend.main, side=3, line=1)
   
   # Plot indication of network clusters underneath heatmap
   if (!is.null(network.labels)) {
@@ -150,7 +156,7 @@ PlotNetworkHeatmap <- function(edge.matrix, network.labels=NULL, xlab="", ylab="
                  break.points = break.points,
                  col          = .ClusterColors[1:length(breaks$values)],
                  bin.lab      = breaks$values,
-                 main         = "Modules",
+                 main         = cluster.legend.main,
                  direction    = "x",
                  lines        = NA)   
   }
