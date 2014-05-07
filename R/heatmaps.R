@@ -9,6 +9,7 @@
 #'                          compare clusters with.
 #' @return a vector of ordered nodes. 
 #'
+#' @export
 OrderNetwork <- function(edge.matrix, node.labels=NULL, cluster.summaries=NULL) {
   # Cluster gene networks by Eigengene similarity
   order <- NULL
@@ -48,6 +49,7 @@ OrderNetwork <- function(edge.matrix, node.labels=NULL, cluster.summaries=NULL) 
 #'   \code{edge.matrix1}, and the lower triangle corresponds to i
 #'   \code{edge.matrix2}.
 #'
+#' @export
 ComparativeEdgeMatrix <- function(edge.matrix1, edge.matrix2) {
   # Check the two edge.matrix matrices are the same size, and contains
   # the same nodes (and that each matrix is well formed)
