@@ -95,9 +95,9 @@ parseNEOcsv <- function(neofilename, outfile) {
     PearsonCor = neo.csv$PearsonCor
   )
   
-  write.csv(df[!is.na(CPA.Anchors)], file=paste0(outfile, ".edge.table.csv"), 
+  write.csv(df[!is.na(df$CPA.Anchors)], file=paste0(outfile, ".edge.table.csv"), 
             quote=FALSE)
-  write.csv(df[is.na(CPA.Anchros), c("Source", "Target", "PearsonCor")],
+  write.csv(df[is.na(df$CPA.Anchros), c("Source", "Target", "PearsonCor")],
             file=paste0(outfile, ".snp.table.csv"), quote=FALSE)
 }
 
