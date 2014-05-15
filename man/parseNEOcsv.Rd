@@ -8,20 +8,17 @@ parseNEOcsv(neofilename, outfile)
 \arguments{
 \item{neofilename}{path to the neo csv file.}
 
-\item{outfile}{file prefix to output the .edge.table.csv and .snp.table.csv
+\item{outfile}{file prefix to output the .edge.table.tsv and .snp.table.tsv
 files}
 }
 \description{
 \code{NEO} outputs a massive CSV file that is not easily parseable, nor
 loadable into cytoscape. This function will parse this CSV file and write
-two tables to file:
-}
-\details{
+two tables to file in tab separatted format:
 An edge table, filled with relevant columns, notably
 splitting out the \code{edge} column into Source and Target nodes, and
 splitting the \code{Final.SNPs.LEO.NB.OCA} column into a vector of SNPs for
-the target and source nodes respectively.
-
-A second table, filled with SNP to Node relationships will also be output.
+the target and source nodes respectively, and a second table with SNP to Node
+relationships.
 }
 

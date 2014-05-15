@@ -64,17 +64,15 @@ writeEdgeTableFromAdj <- function(adj, filename, noEdge=c(0, NA), diag=FALSE,
 #' 
 #' \code{NEO} outputs a massive CSV file that is not easily parseable, nor
 #' loadable into cytoscape. This function will parse this CSV file and write
-#' two tables to file: 
-#' 
+#' two tables to file in tab separatted format: 
 #' An edge table, filled with relevant columns, notably
 #' splitting out the \code{edge} column into Source and Target nodes, and 
 #' splitting the \code{Final.SNPs.LEO.NB.OCA} column into a vector of SNPs for 
-#' the target and source nodes respectively.
-#' 
-#' A second table, filled with SNP to Node relationships will also be output.
+#' the target and source nodes respectively, and a second table with SNP to Node 
+#' relationships.
 #' 
 #' @param neofilename path to the neo csv file.
-#' @param outfile file prefix to output the .edge.table.csv and .snp.table.csv
+#' @param outfile file prefix to output the .edge.table.tsv and .snp.table.tsv
 #'        files
 #' @export
 parseNEOcsv <- function(neofilename, outfile) {
@@ -95,11 +93,11 @@ parseNEOcsv <- function(neofilename, outfile) {
     PearsonCor = neo.csv$PearsonCor
   )
   
-  write.csv(df[!is.na(df$CPA.Anchors),], 
-            file=paste0(outfile, ".edge.table.csv"), 
-            quote=FALSE)
-  write.csv(df[is.na(df$CPA.Anchors), c("Source", "Target", "PearsonCor")],
-            file=paste0(outfile, ".snp.table.csv"),
-            quote=FALSE)
+  write.table(df[!is.na(df$CPA.Anchors),], 
+            file=paste0(outfile, ".edge.table.tsv"), 
+            quote=FALSE, sep="\t")
+  write.table(df[is.na(df$CPA.Anchors), c("Source", "Target", "PearsonCor")],
+            file=paste0(outfile, ".snp.table.tsv"),
+            quote=FALSE, sep="\t")
 }
 
