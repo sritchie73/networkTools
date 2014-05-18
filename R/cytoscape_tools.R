@@ -58,6 +58,34 @@ writeEdgeTableFromAdj <- function(adj, filename, noEdge=c(0, NA), diag=FALSE,
   sink()
 }
 
+
+#' Converts an edge table to an adjacency matrix
+#' 
+#' @note
+#' Does work on networks with multiple edges between nodes.
+#' 
+#' @param edgetable assume the first two columns are the edge from the node 
+#'   in column 1 to the node in column 2.
+#' @param weights.col if specified, the adjacency matrix is filled with the 
+#'   weights from the given column number/name.
+#' @return
+#'   an adjacency matrix
+#'   
+#' @export
+edge2adj <- function(edgetable, weights.col=NULL) {
+  nodes <- unique(c(edgetable[,1], edgetable[,2]))
+  adj <- matrix(0, length(nodes), length(nodes), dimnames=list(nodes, nodes))
+  for (i in 1:nrow(edgetable)) {
+    if (!is.null(weights.col)) {
+      adj[edgetable[i,1], edgetable[i,2]] = adj[edgetable[i,1], edgetable[i,2]] + edgetable[i,weights.col]
+    } else {
+      adj[edgetable[i,1], edgetable[i,2]] = adj[edgetable[i,1], edgetable[i,2]] + 1
+    }
+  }
+  adj
+}
+
+
 `%nin%` <- function(...) !(`%in%`(...))
 
 #' Converts the output of \code{NEO} into something sane.
