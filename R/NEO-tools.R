@@ -45,11 +45,11 @@ parseNEOcsv <- function(neofilename, outfile) {
 #' @export
 getNEOthresholds <- function() {
   thresholds=list(
-    LEO.NB.OCA > 0.3,
-    LEO.NB.CPA > 0,
-    P.Model.AB > 0.05, # Verify
-    P.weighted.LEO.NB.OCA > 0.05, # Verify
-    P.WaldPath.AB < 0.05,
-    BLV > 0
+    LEO.NB.OCA="> 0.3",
+    LEO.NB.CPA="> 0",
+    P.Model.AB="> 0.05", # Verify
+    P.weighted.LEO.NB.OCA="> 0.05", # Verify
+    P.WaldPath.AB="< 0.05",
+    BLV="> 0"
   )
 }
