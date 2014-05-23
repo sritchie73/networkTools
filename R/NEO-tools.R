@@ -146,12 +146,13 @@ evaluateAnchors <- function(dt, datC) {
     }
   }
   dt[, CPA.Source.P  := CPA.Source.P]
-  dt[, CPA.Source.R2 := CPA.Source.R2]
-  dt[, OCA.Target.P  := OCA.Target.P]
-  dt[, OCA.Target.R2 := OCA.Target.R2]
   dt[, CPA.Target.P  := CPA.Target.P]
-  dt[, CPA.Target.R2 := CPA.Target.R2]
+  dt[, OCA.Target.P  := OCA.Target.P]
   dt[, OCA.Source.P  := OCA.Source.P]
+  
+  dt[, CPA.Source.R2 := CPA.Source.R2]
+  dt[, CPA.Target.R2 := CPA.Target.R2]
+  dt[, OCA.Target.R2 := OCA.Target.R2]
   dt[, OCA.Source.R2 := OCA.Source.R2]
   dt
 }
