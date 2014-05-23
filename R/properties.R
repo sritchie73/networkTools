@@ -27,3 +27,13 @@ sources <- function(adjacency) {
   names(d)[(d - rowSums(adjacency)[names(d)]) == 0]
 }
 
+#' Identify mediator nodes in the network
+#' 
+#' @param adjacency an adjacency matrix
+#' @return a vector of node names
+#' @export
+mediators <- function(adjacency) {
+  sinks <- sinks(adjacency)
+  sources <- sources(adjacency)
+  colnames(adjacency)[!(colnames(adjacency) %in% c(sinks, sources))]
+}

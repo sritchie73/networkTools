@@ -3,13 +3,15 @@
 \alias{parseNEOcsv}
 \title{Converts the output of \code{NEO} into something sane.}
 \usage{
-parseNEOcsv(neofilename, outfile)
+parseNEOcsv(neofilename, outfile, datC)
 }
 \arguments{
 \item{neofilename}{path to the neo csv file.}
 
 \item{outfile}{file prefix to output the .edge.table.tsv and .snp.table.tsv
 files}
+
+\item{datC}{data matrix given to NEO as its \code{datC} argument}
 }
 \description{
 \code{NEO} outputs a massive CSV file that is not easily parseable, nor
