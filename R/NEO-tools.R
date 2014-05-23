@@ -152,7 +152,7 @@ evaluateAnchors <- function(dt, datC) {
   dt[, CPA.Target.P  := CPA.Target.P]
   dt[, CPA.Target.R2 := CPA.Target.R2]
   dt[, OCA.Source.P  := OCA.Source.P]
-  dt[, OCA.Source.R2 :- OCA.Source.R2]
+  dt[, OCA.Source.R2 := OCA.Source.R2]
   dt
 }
 
