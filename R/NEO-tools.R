@@ -18,7 +18,7 @@ parseNEOcsv <- function(neofilename, outfile, datC) {
   require(data.table)
   neo.csv <- read.csv(neofilename, stringsAsFactors=FALSE)
   snps <- strsplit(gsub('"', '', neo.csv$Final.SNPs.LEO.NB.OCA), ";")
-  if (!("edge" %in% neo.csv)) {
+  if (!("edge" %in% colnames(neo.csv))) {
     warning("parsing incomplete neo log file. Your run may have failed, or is",
             " still in progress.")
     colnames(neo.csv)[1] <- "edge"
