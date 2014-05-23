@@ -124,22 +124,22 @@ evaluateAnchors <- function(dt, datC) {
     cpa.to.target = anchor.lm(datC, dt[i, Target], dt[i,CPA.Anchors])
     oca.to.source = anchor.lm(datC, dt[i, Source], dt[i,OCA.Anchors])
     oca.to.target = anchor.lm(datC, dt[i, Target], dt[i,OCA.Anchors])
-    if (!is.na(cpa.to.source)) {
+    if (!is.null(cpa.to.source)) {
       f <- summary(cpa.to.source)$fstat
       CPA.Source.P[i]  = pf(f[1], f[2], f[3], lower.tail=F)
       CPA.Source.R2[i] = summary(cpa.to.source)$adj.r.squared
     }
-    if (!is.na(cpa.to.target)) {
+    if (!is.null(cpa.to.target)) {
       f <- summary(cpa.to.target)$fstat
       CPA.Target.P[i]  = pf(f[1], f[2], f[3], lower.tail=F)
       CPA.Target.R2[i] = summary(cpa.to.target)$adj.r.squared
     }
-    if (!is.na(oca.to.source)) {
+    if (!is.null(oca.to.source)) {
       f <- summary(oca.to.source)$fstat
       OCA.Source.P[i]  = pf(f[1], f[2], f[3], lower.tail=F)
       OCA.Source.R2[i] = summary(oca.to.source)$adj.r.squared
     }
-    if (!is.na(oca.to.target)) {
+    if (!is.null(oca.to.target)) {
       f <- summary(oca.to.target)$fstat
       OCA.Target.P[i]  = pf(f[1], f[2], f[3], lower.tail=F)
       OCA.Target.R2[i] = summary(oca.to.target)$adj.r.squared
@@ -164,6 +164,6 @@ anchor.lm <- function(datC, trait, anchor) {
                    ", dat=as.data.frame(datC))")
     eval(parse(text=call))
   } else {
-    NA
+    NULL
   }
 }
