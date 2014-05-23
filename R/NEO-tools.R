@@ -124,18 +124,26 @@ evaluateAnchors <- function(dt, datC) {
     cpa.to.target = anchor.lm(datC, dt[i, Target], dt[i,CPA.Anchors])
     oca.to.source = anchor.lm(datC, dt[i, Source], dt[i,OCA.Anchors])
     oca.to.target = anchor.lm(datC, dt[i, Target], dt[i,OCA.Anchors])
-    f <- summary(cpa.to.source)$fstat
-    CPA.Source.P[i]  = pf(f[1], f[2], f[3], lower.tail=F)
-    CPA.Source.R2[i] = summary(cpa.to.source)$adj.r.squared
-    f <- summary(cpa.to.target)$fstat
-    CPA.Target.P[i]  = pf(f[1], f[2], f[3], lower.tail=F)
-    CPA.Target.R2[i] = summary(cpa.to.target)$adj.r.squared
-    f <- summary(oca.to.source)$fstat
-    OCA.Source.P[i]  = pf(f[1], f[2], f[3], lower.tail=F)
-    OCA.Source.R2[i] = summary(oca.to.source)$adj.r.squared
-    f <- summary(oca.to.target)$fstat
-    OCA.Target.P[i]  = pf(f[1], f[2], f[3], lower.tail=F)
-    OCA.Target.R2[i] = summary(oca.to.target)$adj.r.squared
+    if (!is.na(cpa.to.source)) {
+      f <- summary(cpa.to.source)$fstat
+      CPA.Source.P[i]  = pf(f[1], f[2], f[3], lower.tail=F)
+      CPA.Source.R2[i] = summary(cpa.to.source)$adj.r.squared
+    }
+    if (!is.na(cpa.to.target)) {
+      f <- summary(cpa.to.target)$fstat
+      CPA.Target.P[i]  = pf(f[1], f[2], f[3], lower.tail=F)
+      CPA.Target.R2[i] = summary(cpa.to.target)$adj.r.squared
+    }
+    if (!is.na(oca.to.source)) {
+      f <- summary(oca.to.source)$fstat
+      OCA.Source.P[i]  = pf(f[1], f[2], f[3], lower.tail=F)
+      OCA.Source.R2[i] = summary(oca.to.source)$adj.r.squared
+    }
+    if (!is.na(oca.to.target)) {
+      f <- summary(oca.to.target)$fstat
+      OCA.Target.P[i]  = pf(f[1], f[2], f[3], lower.tail=F)
+      OCA.Target.R2[i] = summary(oca.to.target)$adj.r.squared
+    }
   }
   dt[, CPA.Source.P  := CPA.Source.P]
   dt[, CPA.Source.R2 := CPA.Source.R2]
@@ -151,7 +159,11 @@ evaluateAnchors <- function(dt, datC) {
 # Run a linear model between a trait and its causal anchors.
 anchor.lm <- function(datC, trait, anchor) {
   anchors <- parseAnchor(anchor)
-  call <- paste0("lm(", trait, " ~ ", paste(anchors, collapse=" + "), 
-                 ", dat=as.data.frame(datC))")
-  eval(parse(text=call))
+  if (length(anchors) > 0) {
+    call <- paste0("lm(", trait, " ~ ", paste(anchors, collapse=" + "), 
+                   ", dat=as.data.frame(datC))")
+    eval(parse(text=call))
+  } else {
+    NA
+  }
 }
