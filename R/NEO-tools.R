@@ -35,6 +35,7 @@ parseNEOcsv <- function(neofilename, outfile, datC) {
     Z.WaldPath.AB = neo.csv$ZtestPathCoefficientAB,
     P.WaldPath.AB = 2*pnorm(abs(neo.csv$ZtestPathCoefficientAB), lower.tail=FALSE),
     BLV = neo.csv$BLV.or.BilayerZscore,
+    RMSEA = neo.csv$RMSEA.2m,
     PearsonCor = neo.csv$PearsonCor
   )
   
