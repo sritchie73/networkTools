@@ -3,7 +3,7 @@
 \alias{evaluateAnchors}
 \title{Evalute the Quality of the Causal and Orthoganl Anchors chosen by NEO.}
 \usage{
-evaluateAnchors(dt, datC)
+evaluateAnchors(edge.table, datC)
 }
 \arguments{
 \item{dt}{edge table to be written out by \code{\link{parseNEOcsv}}.}

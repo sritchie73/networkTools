@@ -14,13 +14,12 @@ files}
 \item{datC}{data matrix given to NEO as its \code{datC} argument}
 }
 \description{
-\code{NEO} outputs a massive CSV file that is not easily parseable, nor
+\code{NEO} outputs a massive CSV file that is not easy to threshold nor
 loadable into cytoscape. This function will parse this CSV file and write
-two tables to file in tab separatted format:
-An edge table, filled with relevant columns, notably
-splitting out the \code{edge} column into Source and Target nodes, and
-splitting the \code{Final.SNPs.LEO.NB.OCA} column into a vector of SNPs for
-the target and source nodes respectively, and a second table with SNP to Node
-relationships.
+out an edge table to file, filled with relevant columns from the CSV, along
+with additional consistency checks. Some columns are themselves parse and
+split to be useful, namely the \code{edge} column (into Source and Target
+nodes), and the \code{Final.SNPs.LEO.NB.OCA} column into a vector of SNPs
+for the Target and Source nodes respectively.
 }
 
