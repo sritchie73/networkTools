@@ -13,8 +13,8 @@ trait.}
 }
 \value{
 Returns the \code{data.frame} given in to the \code{filtered} parameter with
-two additional columns: one for the estimated effect size, and one with the
-p-value.
+three additional columns: one for the estimated effect size, one with the
+p-value, and one with the r-squared (proportion of variance explained).
 }
 \description{
 Uses the Two-stage least squares method to estimate the causal effect size

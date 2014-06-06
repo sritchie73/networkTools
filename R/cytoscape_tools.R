@@ -5,7 +5,11 @@
 #' @title Tools for analysing and visualising networks.
 #' @description
 #' This R package provides functions for analysisng and visualising large 
-#' networks, primarily those generated from the R package WGCNA.
+#' networks, primarily those generated from the Horvath et al suite of network
+#' packages and tools, e.g. WGCNA and the NEO software 
+#' \link{http://labs.genetics.ucla.edu/horvath/aten/NEO/}.
+#' 
+#' This package is backwards compatible with older versions of R (i.e. 2.5.1).
 #' 
 #' @details
 #' \tabular{ll}{
@@ -84,7 +88,6 @@ edge2adj <- function(edgetable, weights.col=NULL) {
   }
   adj
 }
-
 
 `%nin%` <- function(...) !(`%in%`(...))
 

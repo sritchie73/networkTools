@@ -375,19 +375,22 @@ compareFiltered <- function(filtered1, filtered2) {
 #'             trait.
 #' @return 
 #' Returns the \code{data.frame} given in to the \code{filtered} parameter with
-#' two additional columns: one for the estimated effect size, and one with the
-#' p-value.
+#' three additional columns: one for the estimated effect size, one with the
+#' p-value, and one with the r-squared (proportion of variance explained).
 #' @export
 estimateCausalEffectSize <- function(filtered, datC) {
   effectSize <- rep(NA, nrow(filtered))
   effectPval <- rep(NA, nrow(filtered))
+  effectR2 <- rep(NA, nrow(filtered))
   for (i in 1:nrow(filtered)) {
     stage1 <- anchor.lm(datC, filtered[i, "Source"], filtered[i,"CPA.Anchors"])
     stage2 <- lm(datC[,filtered[i, "Target"]] ~ stage1$fitted.values)
     effectSize[i] <- coef(summary(stage2))[2, "Estimate"]
     effectPval[i] <- coef(summary(stage2))[2, "Pr(>|t|)"]
+    effectR2[i] <- summary(stage2)$r.squared
   }
   data.frame(filtered, 
              Causal.Effect.Size = effectSize, 
-             Causal.Effect.P.value = effectPval)
+             Causal.Effect.P.value = effectPval,
+             Causal.Effect.R2 = effectR2)
 }
