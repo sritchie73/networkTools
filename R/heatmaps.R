@@ -16,23 +16,32 @@ OrderNetwork <- function(edge.matrix, node.labels=NULL, cluster.summaries=NULL) 
   
   if (!is.null(node.labels)) {
     if (!is.null(cluster.summaries)) {
-      h <- hclust(as.dist(1 - abs(cor(cluster.summaries))))
+      h <- hclust(
+        as.dist(
+          1 - abs(cor(cluster.summaries, use="pairwise.complete.obs"))
+        )
+      )
       cluster.order <- h$label[h$order]
     } else {
       cluster.order <- unique(node.labels)
-    }
+    }   
     for (network in cluster.order) {
       cluster.nodes <- names(node.labels[node.labels %in% network])
       # Order genes within each network by their connectivity to all other genes
-      order <- c(order, names(sort(colSums(abs(edge.matrix[,cluster.nodes])), 
-                                   decreasing=TRUE)))
-    }
+      order <- c(order, names(sort(
+        colSums(abs(edge.matrix[cluster.nodes,cluster.nodes,drop=F])), 
+        decreasing=TRUE
+      )))
+    }   
   }
   
   # Handle the unassigned nodes (if present)
   `%NIN%` <- function(a, b) a[!(`%in%`(a, b))]
   unassigned <- rownames(edge.matrix) %NIN% order
-  order <- c(order, names(sort(colSums(abs(edge.matrix[,unassigned])))))
+  order <- c(order, names(sort(
+    colSums(abs(edge.matrix[unassigned,unassigned,drop=F])), 
+    decreasing=TRUE
+  )))
   
   return(order)
 }
@@ -85,8 +94,9 @@ ComparativeEdgeMatrix <- function(edge.matrix1, edge.matrix2) {
 #' @param legend.main title to give to the legend denoting heatmap colors.
 #' @param cluster.legend.main title to give to the legend denoting cluster 
 #'        assignment.
-#' @param heatmap.bins Number of bins to partition edge weights into for 
-#'        plotting.
+#' @param legend.bins Number of bins to partition heatmap colors into on the
+#'        legend. Colors on the heatmap itself are unaffected by this. Colors
+#'        are interpolated over the \code{heatmap.gradient}.
 #' @param edge.weight.range The range of values edge weights can take. Defaults
 #'        to \code{c(-1, 1)}.
 #' @param heatmap.gradient A vector of colors to use for (or interpolate over)
@@ -105,18 +115,18 @@ ComparativeEdgeMatrix <- function(edge.matrix1, edge.matrix2) {
 #'  garbage-out.
 #'
 #' @export
-PlotNetworkHeatmap <- function(edge.matrix, network.labels=NULL,
-                               xlab="", ylab="", node.labels=NULL,
+PlotNetworkHeatmap <- function(edge.matrix, network.labels=NULL, 
+                               xlab="", ylab="", node.labels=NULL, 
                                legend.main="", cluster.legend.main="",
-                               heatmap.bins=11, edge.weight.range=c(-1,1),
-                               heatmap.gradient, cluster.cols,
-                               mar=c(5,4,2,2)+0.1, gap.width=2.1,
-                               layout.heights=c(0.8, 0.2),...) {
+                               legend.bins=11, edge.weight.range=c(-1,1),
+                               heatmap.gradient, cluster.cols, 
+                               mar=c(5.1,4.1,2.1,2.1), gap.width=2.1, 
+                               layout.heights=c(0.85, 0.15),...) {
   if(missing(heatmap.gradient)) {
     # "RdYlBu" RColorBrewer palette, with the middle value replaced with white:
     # this gives a nicer contrast than he RdBu palette.
     heatmap.gradient <- c("#313695", "#4575B4", "#74ADD1", "#ABD9E9", "#E0F3F8",
-                          "#FFFFFF", "#FEE090", "#FDAE61", "#F46D43", "#D73027",
+                          "#FFFFFF", "#FEE090", "#FDAE61", "#F46D43", "#D73027", 
                           "#A50026")
   }
   
@@ -125,7 +135,7 @@ PlotNetworkHeatmap <- function(edge.matrix, network.labels=NULL,
     breaks <- rle(network.labels[colnames(edge.matrix)])
     break.points <- sapply(1:length(breaks$length), function(i) {
       sum(breaks$length[1:i])
-    })
+    })  
     break.points <- c(0, break.points)
     if (missing(cluster.cols)) {
       cluster.cols <- 1:length(unique(network.labels))
@@ -140,7 +150,7 @@ PlotNetworkHeatmap <- function(edge.matrix, network.labels=NULL,
   } else {
     layout(matrix(1:2, ncol=2, byrow=TRUE), widths=c(0.85, 0.15))
   }
-  h.gap = ifelse(!is.null(node.labels) & xlab != "", 2.1, 1.1)
+  h.gap = ifelse(!is.null(node.labels) & xlab != "", 2.1, 1.6)
   par(mar=c(ifelse(is.null(network.labels), mar[1], gap.width),mar[2],mar[3],h.gap), ...)
   image(x      = 0:ncol(edge.matrix),
         y      = 0:ncol(edge.matrix),
@@ -164,7 +174,6 @@ PlotNetworkHeatmap <- function(edge.matrix, network.labels=NULL,
     mtext(ylab, side=2, line=0.5, ...)
   }
   
-  
   # Draw boxes around network clusters
   if(!is.null(network.labels)) {
     lines(rect(0, 0, ncol(edge.matrix), ncol(edge.matrix), lwd=1))  # heatmap border
@@ -173,21 +182,21 @@ PlotNetworkHeatmap <- function(edge.matrix, network.labels=NULL,
                  ybottom = break.points[i-1],
                  xright  = break.points[i],
                  ytop    = break.points[i],
-                 lwd     = 1
-      ))
+                 lwd     = 1 
+      ))  
     }
   }
   
   # Plot edge.matrix Legend
   par(mar=c(ifelse(is.null(network.labels), mar[1], gap.width+8), 4.1, mar[3]+2, mar[4]), ...)
-  gradient.bar(nBins        = 11,
-               direction    = "y",
-               lines        = "black",
-               col.gradient = rev(heatmap.gradient),
-               bin.lab      = format(seq(edge.weight.range[2],
-                                         edge.weight.range[1],
+  gradient.bar(nBins        = legend.bins, 
+               direction    = "y", 
+               lines        = "black", 
+               col.gradient = rev(heatmap.gradient), 
+               bin.lab      = format(seq(edge.weight.range[2], 
+                                         edge.weight.range[1], 
                                          length=heatmap.bins+1), digits=2)
-  )
+  )   
   mtext(legend.main, side=3, line=0, ...)
   
   # Plot indication of network clusters underneath heatmap
@@ -195,12 +204,12 @@ PlotNetworkHeatmap <- function(edge.matrix, network.labels=NULL,
     # Subtracting 1.6 and 1.5 from the left and right margins is required
     # so that the cluster designation lines up with the heatmap
     par(mar=c(mar[1], mar[2]-1.6, 2.1, h.gap-1.5), ...)
-    gradient.bar(range        = c(0, ncol(edge.matrix)),
+    gradient.bar(range        = c(0, ncol(edge.matrix)), 
                  break.points = break.points,
                  col          = cluster.cols,
                  bin.lab      = breaks$values,
                  main         = cluster.legend.main,
                  direction    = "x",
-                 lines        = NA)
+                 lines        = NA)   
   }
-} 
+}

@@ -5,9 +5,9 @@
 \usage{
 PlotNetworkHeatmap(edge.matrix, network.labels = NULL, xlab = "",
   ylab = "", node.labels = NULL, legend.main = "",
-  cluster.legend.main = "", heatmap.bins = 11, edge.weight.range = c(-1,
-  1), heatmap.gradient, cluster.cols, mar = c(5, 4, 2, 2) + 0.1,
-  gap.width = 2.1, layout.heights = c(0.8, 0.2), ...)
+  cluster.legend.main = "", legend.bins = 11, edge.weight.range = c(-1,
+  1), heatmap.gradient, cluster.cols, mar = c(5.1, 4.1, 2.1, 2.1),
+  gap.width = 2.1, layout.heights = c(0.85, 0.15), ...)
 }
 \arguments{
 \item{edge.matrix}{a square matrix containing the edge weights between each
@@ -28,8 +28,9 @@ cell.}
 \item{cluster.legend.main}{title to give to the legend denoting cluster
 assignment.}
 
-\item{heatmap.bins}{Number of bins to partition edge weights into for
-plotting.}
+\item{legend.bins}{Number of bins to partition heatmap colors into on the
+legend. Colors on the heatmap itself are unaffected by this. Colors
+are interpolated over the \code{heatmap.gradient}.}
 
 \item{edge.weight.range}{The range of values edge weights can take. Defaults
 to \code{c(-1, 1)}.}
