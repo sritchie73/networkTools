@@ -27,39 +27,33 @@
 #' 
 NULL
 
-#' Write a network edge CSV file from an adjacency matrix.
-#'
-#' The Cytoscape network format expects a csv file, where each row contains an
-#' edge pair, 'source' and 'target', along with an edge weight. This function
-#' will convert an adjacency matrix to this 'long' format.
-#' 
-#' @details 
-#'  In most cases a tab is the best separator between the elements in each row,
-#'  but if for some reason the node names have tabs in them, this can be 
-#'  changed.
+#' Convert an adjacency matrix to an edge list
 #'   
 #' @param adj Adjacency matrix.
-#' @param filename filename to write to
 #' @param noEdge values in the adjacency matrix to consider as "no edge". 
 #'  Defaults to 0 and NA.
 #' @param diag Logical; Include the diagonals?
-#' @param sep Defaults to tab. See details.
 #' @return NULL
 #' 
 #' @export
-writeEdgeTableFromAdj <- function(adj, filename, noEdge=c(0, NA), diag=FALSE,
-                                  sep="\t") {
-  sink(filename)
+adj2edge <- function(adj, noEdge=c(0, NA), diag=FALSE) {
+  nrow <- sum(!(adj %in% noEdge))
+  if (!diag) {
+    nrow <- nrow - sum(!(diag(adj) %in% noEdge))
+  }
+  edgeList <- data.frame(Source=rep("", nrow), Target="", weight=0)
+  e <- 1
   for (i in 1:nrow(adj)) {
     for (j in 1:ncol(adj)) {
       if ((i != j || diag) && (adj[i, j] %nin% noEdge)) {
         rname <- ifelse(is.null(rownames(adj)), i, rownames(adj)[i])
         cname <- ifelse(is.null(colnames(adj)), j, colnames(adj)[j])
-        cat(paste(rname, cname, adj[i,j], sep=sep), "\n")
+        edgeList[e,] <- list(rname, cname, adj[i,j])
+        e <- e + 1
       }
     }
   }
-  sink()
+  edgeList
 }
 
 
