@@ -160,7 +160,7 @@ gradient.bar <- function(range=c(0,1), break.points=NULL, nBins=NULL, col=NULL,
     } else {
       stop("Invalid number of labels provided for bin.lab!")
     }
-    mtext(bin.lab, side=side, at=at, 0.5, las=2, cex=0.7)
+    mtext(bin.lab, side=side, at=at, 0.5, las=2)
   }
   if (direction  == "x") {
     at <- (range[2] - range[1])/2
