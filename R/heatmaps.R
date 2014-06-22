@@ -37,8 +37,7 @@ OrderNetwork <- function(edge.matrix, node.labels=NULL, cluster.summaries=NULL) 
   return(order)
 }
 
-#' Combine edge weight matrices for a network derived from two different
-#' data sources.
+#' Combine edge weight matrices for a network derived from two different data sources.
 #'
 #' Primarily for use with \code{\link{PlotNetworkHeatmap}}.
 #'
@@ -69,7 +68,7 @@ ComparativeEdgeMatrix <- function(edge.matrix1, edge.matrix2) {
   return(combined)
 }
 
-#' @title Plot network edge weights as a heatmap.
+#' Plot network edge weights as a heatmap.
 #'
 #' Plots the edge weights between nodes as a heatmap, optionally drawing boxes 
 #' around pre-determined clusters. The \code{xlab} and \code{ylab} arguments are
@@ -81,6 +80,8 @@ ComparativeEdgeMatrix <- function(edge.matrix1, edge.matrix2) {
 #'                       network/cluster.
 #' @param xlab x-axis heatmap label.
 #' @param ylab y-axis heatmap label.
+#' @param node.labels a character vector of labels to print for each row/column
+#'                    cell.
 #' @param legend.main title to give to the legend denoting heatmap colors.
 #' @param cluster.legend.main title to give to the legend denoting cluster 
 #'        assignment.
@@ -99,10 +100,10 @@ ComparativeEdgeMatrix <- function(edge.matrix1, edge.matrix2) {
 #'
 #' @export
 PlotNetworkHeatmap <- function(edge.matrix, network.labels=NULL, 
-                               xlab="", ylab="", legend.main="", 
-                               cluster.legend.main="", heatmap.bins=11,
-                               edge.weight.range=c(-1,1),
-                               heatmap.gradient, cluster.cols) {
+                               xlab="", ylab="", node.labels=NULL, 
+                               legend.main="", cluster.legend.main="",
+                               heatmap.bins=11, edge.weight.range=c(-1,1),
+                               heatmap.gradient, cluster.cols, ...) {
   if(missing(heatmap.gradient)) {
     # "RdYlBu" RColorBrewer palette, with the middle value replaced with white:
     # this gives a nicer contrast than he RdBu palette.
@@ -131,7 +132,7 @@ PlotNetworkHeatmap <- function(edge.matrix, network.labels=NULL,
     layout(matrix(1:2, ncol=2, byrow=TRUE), widths=c(0.8, 0.2))
   }
   
-  par(mar=c(4.1,6.1,4.1,4.1))
+  par(mar=c(4.1,6.1,4.1,4.1), ...)
   image(x      = 0:ncol(edge.matrix),
         y      = 0:ncol(edge.matrix),
         z      = edge.matrix, 
@@ -141,10 +142,20 @@ PlotNetworkHeatmap <- function(edge.matrix, network.labels=NULL,
                      length.out=heatmap.bins+1),
         axes   = FALSE,
         xlab   = "", 
-        ylab   = "") 
+        ylab   = "",
+        ...) 
   abline(0, 1, col="black")
-  mtext(xlab, side=1, line=1)
-  mtext(ylab, side=2, line=1)
+  
+  if (!is.null(node.labels)) {
+    axis(1, 1:ncol(edge.matrix)-0.5, node.labels, las=2, pos=0, ...)
+    axis(2, 1:ncol(edge.matrix)-0.5, node.labels, las=2, pos=0, ...)
+    mtext(xlab, side=1, line=2, ...)
+    mtext(ylab, side=2, line=2, ...)
+  } else {
+    mtext(xlab, side=1, line=1, ...)
+    mtext(ylab, side=2, line=1, ...)
+  }
+
   
   # Draw boxes around network clusters
   if(!is.null(network.labels)) {
@@ -169,11 +180,11 @@ PlotNetworkHeatmap <- function(edge.matrix, network.labels=NULL,
                                          edge.weight.range[1], 
                                          length=heatmap.bins+1), digits=3)
   )   
-  mtext(legend.main, side=3, line=1)
+  mtext(legend.main, side=3, line=1, ...)
   
   # Plot indication of network clusters underneath heatmap
   if (!is.null(network.labels)) {
-    par(mar=c(7.1, 4.6, 2.1, 2.6))
+    par(mar=c(7.1, 4.6, 2.1, 2.6), ...)
     gradient.bar(range        = c(0, ncol(edge.matrix)), 
                  break.points = break.points,
                  col          = cluster.cols,
