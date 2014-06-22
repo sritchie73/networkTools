@@ -6,7 +6,8 @@
 PlotNetworkHeatmap(edge.matrix, network.labels = NULL, xlab = "",
   ylab = "", node.labels = NULL, legend.main = "",
   cluster.legend.main = "", heatmap.bins = 11, edge.weight.range = c(-1,
-  1), heatmap.gradient, cluster.cols)
+  1), heatmap.gradient, cluster.cols, mar = c(5, 4, 2, 2) + 0.1,
+  gap.width = 2.1, layout.heights = c(0.8, 0.2), ...)
 }
 \arguments{
 \item{edge.matrix}{a square matrix containing the edge weights between each
@@ -38,6 +39,15 @@ the heatmap.bins.}
 
 \item{cluster.cols}{an optional vector of colors for denoting each cluster
 on a legend.}
+
+\item{mar}{outside margins of the plot}
+
+\item{gap.width}{the margin size in lines between the heatmap, and the
+\code{cluster.legend}}
+
+\item{layout.heights}{relative proportion of the plot that the heatmap
+takes up compared to the cluster labelling. Useful if your cluster
+labels are large. Must sum to 1.}
 }
 \description{
 Plots the edge weights between nodes as a heatmap, optionally drawing boxes
