@@ -29,7 +29,7 @@ OrderNetwork <- function(edge.matrix, node.labels=NULL, cluster.summaries=NULL) 
       cluster.nodes <- names(node.labels[node.labels %in% network])
       # Order genes within each network by their connectivity to all other genes
       order <- c(order, names(sort(
-        colSums(abs(edge.matrix[cluster.nodes,cluster.nodes,drop=F])), 
+        (colSums(abs(edge.matrix[cluster.nodes,cluster.nodes,drop=F])) - 1)/2, 
         decreasing=TRUE
       )))
     }   
@@ -39,7 +39,7 @@ OrderNetwork <- function(edge.matrix, node.labels=NULL, cluster.summaries=NULL) 
   `%NIN%` <- function(a, b) a[!(`%in%`(a, b))]
   unassigned <- rownames(edge.matrix) %NIN% order
   order <- c(order, names(sort(
-    colSums(abs(edge.matrix[unassigned,unassigned,drop=F])), 
+    (colSums(abs(edge.matrix[unassigned,unassigned,drop=F])) - 1)/2, 
     decreasing=TRUE
   )))
   
@@ -196,7 +196,7 @@ PlotNetworkHeatmap <- function(edge.matrix, network.labels=NULL,
                bin.lab      = format(seq(edge.weight.range[2], 
                                          edge.weight.range[1], 
                                          length=heatmap.bins+1), digits=2)
-  )   
+  )
   mtext(legend.main, side=3, line=0, ...)
   
   # Plot indication of network clusters underneath heatmap
@@ -210,6 +210,6 @@ PlotNetworkHeatmap <- function(edge.matrix, network.labels=NULL,
                  bin.lab      = breaks$values,
                  main         = cluster.legend.main,
                  direction    = "x",
-                 lines        = NA)   
+                 lines        = NA)
   }
 }
