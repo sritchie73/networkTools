@@ -14,6 +14,9 @@ OrderNetwork <- function(edge.matrix, node.labels=NULL, cluster.summaries=NULL) 
   # Cluster gene networks by Eigengene similarity
   order <- NULL
   
+  # Handle different naming scheme used by WGCNA.
+  colnames(cluster.summaries) <- gsub("^ME", "", cluster.summaries) 
+  
   if (!is.null(node.labels)) {
     if (!is.null(cluster.summaries)) {
       h <- hclust(
