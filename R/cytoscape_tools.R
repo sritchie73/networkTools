@@ -41,7 +41,7 @@ adj2edge <- function(adj, noEdge=c(0, NA), diag=FALSE) {
   if (!diag) {
     nrow <- nrow - sum(!(diag(adj) %in% noEdge))
   }
-  edgeList <- data.frame(Source=rep("", nrow), Target="", weight=0)
+  edgeList <- data.frame(Source=rep("", nrow), Target="", weight=0, stringsAsFactors=FALSE)
   e <- 1
   for (i in 1:nrow(adj)) {
     for (j in 1:ncol(adj)) {
