@@ -1,4 +1,4 @@
-#' Converts the output of \code{NEO} into something sane.
+#' Converts the output of NEO into something sane.
 #' 
 #' \code{NEO} outputs a massive CSV file that is not easy to threshold nor
 #' loadable into cytoscape. This function will parse this CSV file and write
@@ -162,13 +162,13 @@ filterNEO <- function(edge.table,
     # Recommended Threshold from Aten's dissertation (2)
     edge.table$BLV > min.BLV &
     # Consistency checks with MR theory (3)
-    edge.table$CPA.Source.P < max.CPA.source.P &
-    edge.table$CPA.Target.P < max.CPA.target.P &
+    edge.table$CPA.Source.P < max.CPA.Source.P &
+    edge.table$CPA.Target.P < max.CPA.Target.P &
     edge.table$P.Model.AB > min.model.P & 
     # Consistency Checks with knowledge about Causality (4)
     edge.table$CPA.Target.P > edge.table$CPA.Source.P &
-    edge.table$OCA.Target.P < max.OCA.target.P &
-    edge.table$OCA.Source.P > min.OCA.source.P &
+    edge.table$OCA.Target.P < max.OCA.Target.P &
+    edge.table$OCA.Source.P > min.OCA.Source.P &
     # Sanity Check
     edge.table$CPA.Anchors != "c()" &
     edge.table$OCA.Anchors != "c()",
